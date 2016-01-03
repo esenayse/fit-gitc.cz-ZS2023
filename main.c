@@ -4,27 +4,48 @@
 
 #include "stack.h"
 
+#define TEST_SUM 1000000
+
 int main(int argc, char **argv)
 {
 	(void) argc;
 	(void) argv;
 
-	int cnt = 1000000;
 	srand(time(NULL));
-	struct stack_ctx *stack = stack_init(2);
 
-	while (cnt--) {
-		stack_push(stack, rand() % 1000);
+	for (int i = 0; i < 10; i++) {
+		printf("Testing cycle %d\n", i);
+		struct stack_ctx *stack = stack_init(4096);
+
+		int num;
+		int sum = 900;
+		stack_push(stack, sum);
+
+		while (sum < TEST_SUM && !stack_is_empty(stack)) {
+			if ((rand() % 5) < 4) {
+				num = rand() % 1000;
+				stack_push(stack, num);
+				sum += num;
+				printf("Add %d\texpected sum is %d\n", num, sum);
+			} else {
+				num = stack_pop(stack);
+				sum -= num;
+				printf("Sub %d\texpected sum is %d\n", num, sum);
+			}
+		}
+
+		while (!stack_is_empty(stack)) {
+			num = stack_pop(stack);
+			sum -= num;
+			printf("Sub %d\texpected sum is %d\n", num, sum);
+		}
+
+		if (sum != 0) {
+			fprintf(stderr, "Test failed!\n");
+			return 1;
+		}
+		stack_destroy(stack);
 	}
-
-	int num;
-	while (!stack_is_empty(stack)) {
-		num = stack_pop(stack);
-
-		printf("On the stack was: %d\n", num);
-	}
-
-	stack_destroy(stack);
 
 	return 0;
 }
