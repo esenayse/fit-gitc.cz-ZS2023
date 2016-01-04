@@ -5,6 +5,7 @@
 #include "stack.h"
 
 #define TEST_SUM 1000000
+#define TEST_CYCLES 10
 
 int main(int argc, char **argv)
 {
@@ -13,7 +14,7 @@ int main(int argc, char **argv)
 
 	srand(time(NULL));
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < TEST_CYCLES; i++) {
 		printf("Testing cycle %d\n", i);
 		struct stack_ctx *stack = stack_init(4096);
 
