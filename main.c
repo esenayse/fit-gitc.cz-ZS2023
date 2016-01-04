@@ -47,5 +47,29 @@ int main(int argc, char **argv)
 		stack_destroy(stack);
 	}
 
+	struct stack_ctx *stack = stack_init(1);
+	int num;
+	int sum = 0;
+
+	while (sum < TEST_SUM) {
+		num = rand() % 50;
+		stack_push(stack, num);
+		sum += num;
+		printf("Add %d\texpected sum is %d\n", num, sum);
+	}
+
+	while (!stack_is_empty(stack)) {
+		num = stack_pop(stack);
+		sum -= num;
+		printf("Sub %d\texpected sum is %d\n", num, sum);
+	}
+
+	if (sum != 0) {
+		fprintf(stderr, "Test failed!\n");
+		return 1;
+	}
+
+	stack_destroy(stack);
+
 	return 0;
 }
