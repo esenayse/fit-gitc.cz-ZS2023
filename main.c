@@ -48,6 +48,7 @@ int main(int argc, char **argv)
 		stack_destroy(stack);
 	}
 
+	// Make sure that there will be a lot of reallocs
 	struct stack_ctx *stack = stack_init(1);
 	int num;
 	int sum = 0;

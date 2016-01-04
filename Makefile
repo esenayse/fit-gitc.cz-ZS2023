@@ -29,5 +29,5 @@ stack.o: stack.c stack.h
 	$(CC) $(CFLAGS) -c -o stack.o stack.c
 
 clean:
-	rm *.o
-	rm $(BIN)
+	rm -f *.o
+	rm -f $(BIN)
